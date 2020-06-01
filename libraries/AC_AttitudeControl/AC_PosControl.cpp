@@ -234,7 +234,6 @@ AC_PosControl::AC_PosControl(AP_AHRS_View& ahrs, const AP_InertialNav& inav,
     _leash_down_z(POSCONTROL_LEASH_LENGTH_MIN),
     _leash_up_z(POSCONTROL_LEASH_LENGTH_MIN),
     _accel_target_filter(POSCONTROL_ACCEL_FILTER_HZ),
-	_4d_controller_z(POSCONTROL_ACC_Z_P, POSCONTROL_ACC_Z_I, POSCONTROL_ACC_Z_D, 0.0, POSCONTROL_ACC_Z_IMAX, 1000.2, -1000.2, 0.0)
 {
     AP_Param::setup_object_defaults(this, var_info);
 
@@ -643,14 +642,10 @@ void AC_PosControl::run_z_controller()
         if (!(_motors.limit.throttle_lower || _motors.limit.throttle_upper) || ((is_positive(_pid_accel_z.get_i()) && is_negative(_vel_error.z)) || (is_negative(_pid_accel_z.get_i()) && is_positive(_vel_error.z)))) {
             _pid_accel_z.set_integrator(_pid_accel_z.get_i() + _dt * thr_per_accelz_cmss * 1000.0f * _vel_error.z * _p_vel_z.kP() * POSCONTROL_VIBE_COMP_I_GAIN);
         }
-        //thr_out = POSCONTROL_VIBE_COMP_P_GAIN * thr_per_accelz_cmss * _accel_target.z + _pid_accel_z.get_i() * 0.001f;
-        thr_out = _4d_controller_z.pidr(0.0, _accel_target.z, z_accel_meas, 0.0, 0.0);
-        thr_out = _4d_controller_z.pidr(thr_out*15.0, _accel_target.z, z_accel_meas, 0.0, 0.0);
+        thr_out = POSCONTROL_VIBE_COMP_P_GAIN * thr_per_accelz_cmss * _accel_target.z + _pid_accel_z.get_i() * 0.001f;
 
     } else {
-        //thr_out = _pid_accel_z.update_all(_accel_target.z, z_accel_meas, (_motors.limit.throttle_lower || _motors.limit.throttle_upper)) * 0.001f;
-        thr_out = _4d_controller_z.pidr(0.0, _accel_target.z, z_accel_meas, 0.0, 0.0);
-        thr_out = _4d_controller_z.pidr(thr_out*15.0, _accel_target.z, z_accel_meas, 0.0, 0.0);
+        thr_out = _pid_accel_z.update_all(_accel_target.z, z_accel_meas, (_motors.limit.throttle_lower || _motors.limit.throttle_upper)) * 0.001f;
     }
 
     thr_out += _motors.get_throttle_hover();

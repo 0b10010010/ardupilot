@@ -12,6 +12,8 @@
 #include <AP_Motors/AP_Motors.h>          // motors library
 #include <AP_Vehicle/AP_Vehicle.h>         // common vehicle parameters
 
+// 4D Autopilot Control library
+#include <4D_Controller/controller.h>
 
 // position controller default definitions
 #define POSCONTROL_ACCELERATION_MIN             50.0f   // minimum horizontal acceleration in cm/s/s - used for sanity checking acceleration in leash length calculation
@@ -388,6 +390,9 @@ protected:
     AC_PID      _pid_accel_z;
     AC_P        _p_pos_xy;
     AC_PID_2D   _pid_vel_xy;
+
+    // 4D Auto Controller for z axis (altitude)
+    controller  _4d_controller_z;
 
     // internal variables
     float       _dt;                    // time difference (in seconds) between calls from the main program

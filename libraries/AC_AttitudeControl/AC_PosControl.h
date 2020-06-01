@@ -388,9 +388,6 @@ protected:
     AC_P        _p_pos_xy;
     AC_PID_2D   _pid_vel_xy;
 
-    // 4D Auto Controller for z axis (altitude)
-    controller  _4d_controller_z;
-
     // internal variables
     float       _dt;                    // time difference (in seconds) between calls from the main program
     uint64_t    _last_update_xy_us;     // system time (in microseconds) since last update_xy_controller call

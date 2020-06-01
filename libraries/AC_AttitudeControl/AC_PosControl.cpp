@@ -233,7 +233,7 @@ AC_PosControl::AC_PosControl(AP_AHRS_View& ahrs, const AP_InertialNav& inav,
     _leash(POSCONTROL_LEASH_LENGTH_MIN),
     _leash_down_z(POSCONTROL_LEASH_LENGTH_MIN),
     _leash_up_z(POSCONTROL_LEASH_LENGTH_MIN),
-    _accel_target_filter(POSCONTROL_ACCEL_FILTER_HZ),
+    _accel_target_filter(POSCONTROL_ACCEL_FILTER_HZ)
 {
     AP_Param::setup_object_defaults(this, var_info);
 

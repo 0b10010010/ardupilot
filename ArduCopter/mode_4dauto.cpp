@@ -410,7 +410,7 @@ void Mode4DAuto::pos_control_run()
 
     // call z-axis position controller (wpnav should have already updated it's alt target)
     pos_control->update_z_controller();
-
+    //pos_control
     // call attitude controller
     if (auto_yaw.mode() == AUTO_YAW_HOLD) {
         // roll & pitch from waypoint controller, yaw rate from pilot
